@@ -20,20 +20,22 @@ class BioInformations extends Component {
           >
             <div className="d-flex justify-content-between align-items-baseline px-3 py-2">
               <div className="pl-1">
-                <h5>Informations</h5>
+                <h5>About</h5>
               </div>
               <div>
-                <TiPencil
-                  size="35px"
-                  style={{ cursor: "pointer" }}
-                  className="mr-0 pb-1"
-                />
+                {this.props.selectedProfile.username === "user4" && (
+                  <TiPencil
+                    size="35px"
+                    style={{ cursor: "pointer" }}
+                    className="mr-0 pb-1"
+                  />
+                )}
               </div>
             </div>
             <div className="justify-content-start pl-4 pr-auto py-2">
-              {this.props.profile.bio && (
+              {this.props.selectedProfile.bio && (
                 <ReadMoreReact
-                  text={this.props.profile.bio}
+                  text={this.props.selectedProfile.bio}
                   min={100}
                   ideal={130}
                   max={250}

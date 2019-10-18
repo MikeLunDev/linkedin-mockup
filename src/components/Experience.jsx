@@ -8,6 +8,12 @@ import { FiPlus } from "react-icons/fi";
 
 const mapStateToProps = state => state;
 class Experience extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
   render() {
     return (
       <>
@@ -27,11 +33,13 @@ class Experience extends Component {
                         <h5>Experience</h5>
                       </div>
                       <span className="d-block">
-                        <FiPlus
-                          size="35px"
-                          className="pb-1"
-                          style={{ cursor: "pointer" }}
-                        />
+                        {this.props.selectedProfile.username === "user4" && (
+                          <FiPlus
+                            size="35px"
+                            className="pb-1"
+                            style={{ cursor: "pointer" }}
+                          />
+                        )}
                       </span>
                     </div>
                   </Col>

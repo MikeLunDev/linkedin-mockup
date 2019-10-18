@@ -1,16 +1,14 @@
-import { FETCH_BASE_URL, FETCH_PARAMS } from "./fetchParameters";
+import { FETCH_POST_URL, FETCH_PARAMS } from "./fetchParameters";
 
-export const handleSelectedExperience = (user = "user4") => {
+export const handleGetAllPost = () => {
   return async (dispatch, getState) => {
-    var response = await fetch(
-      `${FETCH_BASE_URL}/${user}/experiences`,
-      FETCH_PARAMS
-    );
+    var response = await fetch(FETCH_POST_URL, FETCH_PARAMS);
     var json = await response.json();
+    var toSend = json.reverse();
     return response.ok
       ? dispatch({
-          type: "LOAD_EXPERIENCE",
-          payload: json
+          type: "LOAD_ALL_POST",
+          payload: toSend
         })
       : dispatch({
           type: "ERROR",

@@ -3,13 +3,20 @@ import "./App.css";
 import NavBar from "./components/Navbar";
 import Profile from "./components/Profile";
 import { handleGetProfile } from "../src/actions/getProfile";
-import { handleGetExperiences } from "../src/actions/getExperiences";
+import { handleGetAllPost } from "../src/actions/getAllPost";
 import { connect } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
+import Feeds from "./components/Feeds";
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
   getProfileInfo: () => dispatch(handleGetProfile()),
-  getExperienceInfo: () => dispatch(handleGetExperiences())
+  getAllPost: () => dispatch(handleGetAllPost())
 });
 class App extends Component {
   constructor(props) {
@@ -20,15 +27,27 @@ class App extends Component {
 
   componentDidMount = async () => {
     await this.props.getProfileInfo();
-    await this.props.getExperienceInfo();
+    await this.props.getAllPost();
   };
 
   render() {
     return (
-      <>
-        <NavBar />
-        <Profile />
-      </>
+      <Router>
+        <Route path="/">
+          <NavBar />
+        </Route>
+        <Switch>
+          <Route exact path="/">
+            <Redirect to="/feeds/" />
+          </Route>
+          <Route path="/profile/:user">
+            <Profile />
+          </Route>
+          <Route path="/feeds/">
+            <Feeds />
+          </Route>
+        </Switch>
+      </Router>
     );
   }
 }

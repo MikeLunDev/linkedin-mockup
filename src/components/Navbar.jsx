@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import { FaLinkedin } from "react-icons/fa";
 import Container from "react-bootstrap/Container";
+import { Link } from "react-router-dom";
 
 export default class NavBar extends Component {
   render() {
@@ -32,7 +33,9 @@ export default class NavBar extends Component {
             </Form>
           </Container>
           <Nav className="ml-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link>
+              <Link to="/">Home</Link>
+            </Nav.Link>
             <Nav.Link href="#link">Link</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

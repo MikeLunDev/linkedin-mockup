@@ -15,28 +15,32 @@ export default class MediaListItem extends Component {
     return (
       <Media as="li">
         <img
-          width={80}
-          height={80}
+          width={60}
+          height={60}
           className="mr-3"
-          src="https://via.placeholder.com/130"
+          src={this.props.experience.image || "https://via.placeholder.com/130"}
           alt="Generic placeholder"
         />
         <Media.Body>
-          <div className="d-flex justify-content-between align-items-middle pb-3">
-            <h5 className="mb-0 d-block">{this.props.experience.role}</h5>
+          <div className="d-flex mb-0 pb-0 justify-content-between align-items-baseline ">
+            <h6 style={{ lineHeight: 0.5 }} className="mb-0 pb-0 d-block">
+              {this.props.experience.role}
+            </h6>
             <div>
               {" "}
-              <TiPencil
-                size="35px"
-                style={{ cursor: "pointer" }}
-                className="mr-0"
-              />
+              {this.props.experience.username === "user4" && (
+                <TiPencil
+                  size="25px"
+                  style={{ cursor: "pointer" }}
+                  className="mr-0 mb-0"
+                />
+              )}
             </div>
           </div>
-          <p className="mb-0" style={{ fontSize: "15px" }}>
+          <p className="mb-0" style={{ fontSize: "14px" }}>
             {this.props.experience.company}{" "}
           </p>
-          <p className="text-muted " style={{ fontSize: "15px" }}>
+          <p className="text-muted " style={{ fontSize: "14px" }}>
             <Moment format="YYYY MMM">{this.props.experience.startDate}</Moment>
             {" - "}
             {this.props.experience.endDate !== undefined ? (
@@ -49,14 +53,14 @@ export default class MediaListItem extends Component {
             ) : (
               "Present  "
             )}
-            <GoPrimitiveDot className="pb-1 px-1" size="11px" />
+            <GoPrimitiveDot className="pb-1 px-1 pr-1" size="11px" />
             <Moment fromNow ago>
               {this.props.experience.startDate}
             </Moment>
             <br />
             {this.props.experience.area}
           </p>
-          <p style={{ fontSize: "15px" }}>
+          <p className="pt-0" style={{ fontSize: "14px" }}>
             {this.props.experience.description}
           </p>
         </Media.Body>
