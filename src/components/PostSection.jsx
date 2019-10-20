@@ -3,18 +3,24 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import { connect } from "react-redux";
 import Button from "react-bootstrap/Button";
-import { handlePostComment } from "../actions/createNewPost";
-import { handleDeleteComment } from "../actions/createNewPost";
+import {
+  handlePostComment,
+  handleDeleteComment,
+  handleEditComment
+} from "../actions/postActions";
+
 import Media from "react-bootstrap/Media";
 import Image from "react-bootstrap/Image";
 import Moment from "react-moment";
 import { TiPencil } from "react-icons/ti";
 import { MdDelete } from "react-icons/md";
+import ModalEditComment from "./ModalEditComment";
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
   handleSubmit: message => dispatch(handlePostComment(message)),
-  handleDelete: id => dispatch(handleDeleteComment(id))
+  handleDelete: id => dispatch(handleDeleteComment(id)),
+  handleEdit: (id, text) => dispatch(handleEditComment(id, text))
 });
 
 class PostSection extends Component {
@@ -22,9 +28,13 @@ class PostSection extends Component {
     super(props);
 
     this.state = {
-      message: ""
+      message: "",
+      modalShow: false,
+      currentPost: null
     };
   }
+
+  componentDidUpdate;
 
   handleChange = ({ currentTarget: { value } }) => {
     this.setState({ message: value });
@@ -41,15 +51,39 @@ class PostSection extends Component {
     }
   };
 
-  getNameAndSurname = username => {
-    const userToFind = this.props.profiles.find(
-      current => current.username === username
-    );
-    return `${userToFind.name} ${userToFind.surname}`;
+  getImage = username => {
+    const profile = this.props.profiles.find(el => el.username === username);
+    return profile !== undefined && profile.image !== undefined
+      ? profile.image
+      : "https://via.placeholder.com/130";
   };
+
+  getNameAndSurname = username => {
+    const profile = this.props.profiles.find(el => el.username === username);
+    return profile !== undefined &&
+      profile.name !== undefined &&
+      profile.surname !== undefined
+      ? `${profile.name} ${profile.surname}`
+      : "User not found";
+  };
+
+  getTitle = username => {
+    const profile = this.props.profiles.find(el => el.username === username);
+    return profile !== undefined && profile.title !== undefined
+      ? profile.title
+      : "";
+  };
+
   render() {
     return (
       <>
+        <ModalEditComment
+          show={this.state.modalShow}
+          onHide={() => this.setState({ modalShow: false, currentPost: null })}
+          currentpost={this.state.currentPost}
+          loggedUser={this.props.loggedUser}
+          handleEdit={this.props.handleEdit}
+        />
         <Container fluid className="border border-dark ml-4 mb-2 pt-3">
           <Form className="pb-3" onSubmit={this.handleSubmitLocal}>
             <Form.Group controlId="exampleForm.ControlTextarea1">
@@ -71,17 +105,13 @@ class PostSection extends Component {
               fluid
               className="border border-dark ml-4 mb-2 pt-3"
             >
-              <Media as="li">
+              <Media as="li" key={index}>
                 <Image
                   width={60}
                   height={60}
                   className="mr-3"
                   roundedCircle
-                  src={
-                    this.props.profiles.find(
-                      current => current.username === currentPost.username
-                    ).image || "https://via.placeholder.com/130"
-                  }
+                  src={this.getImage(currentPost.username)}
                   alt="Generic placeholder"
                 />
                 <Media.Body>
@@ -90,20 +120,23 @@ class PostSection extends Component {
                       style={{ lineHeight: 0.5 }}
                       className="mb-0 pb-0 d-block"
                     >
-                      {
-                        this.props.profiles.find(
-                          current => current.username === currentPost.username
-                        ).name
-                      }
+                      {this.getNameAndSurname(currentPost.username)}
                     </h6>
                     <div>
                       {" "}
-                      {currentPost.username === "user4" && (
+                      {currentPost.username ===
+                        this.props.loggedUser.username && (
                         <>
                           <TiPencil
                             size="25px"
                             style={{ cursor: "pointer" }}
                             className="mr-0 mb-0"
+                            onClick={() =>
+                              this.setState({
+                                modalShow: true,
+                                currentPost: currentPost
+                              })
+                            }
                           />
                           <MdDelete
                             onClick={() =>
@@ -118,14 +151,19 @@ class PostSection extends Component {
                     </div>
                   </div>
                   <p className="mb-0" style={{ fontSize: "14px" }}>
-                    {
-                      this.props.profiles.find(
-                        current => current.username === currentPost.username
-                      ).title
-                    }{" "}
+                    {this.getTitle(currentPost.username)}{" "}
                   </p>
                   <p className="text-muted " style={{ fontSize: "14px" }}>
-                    <Moment fromNow>{currentPost.createdAt}</Moment>
+                    {currentPost.createdAt === currentPost.updatedAt ? (
+                      <Moment fromNow>{currentPost.createdAt}</Moment>
+                    ) : (
+                      currentPost.createdAt !== currentPost.updatedAt && (
+                        <>
+                          Edited{" "}
+                          <Moment fromNow>{currentPost.updatedAt}</Moment>
+                        </>
+                      )
+                    )}
                   </p>
                   <p className="pt-0" style={{ fontSize: "14px" }}>
                     {currentPost.text}

@@ -33,3 +33,20 @@ export const handleSelectedProfile = (user = "user4") => {
         });
   };
 };
+export const handleGetLoggedUser = () => {
+  return async (dispatch, getState) => {
+    const response = await fetch(FETCH_BASE_URL, FETCH_PARAMS);
+    const json = await response.json();
+    const loggedUser = json.find(current => current.username === "user4");
+    return response.ok && loggedUser !== undefined
+      ? dispatch({
+          type: "LOAD_LOGGED_USER",
+          payload: loggedUser
+        })
+      : dispatch({
+          type: "ERROR",
+          message: json.message,
+          statusCode: ` ${response.status} ${response.statusText}`
+        });
+  };
+};

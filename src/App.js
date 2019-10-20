@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import "./App.css";
 import NavBar from "./components/Navbar";
 import Profile from "./components/Profile";
-import { handleGetProfile } from "../src/actions/getProfile";
+import {
+  handleGetProfile,
+  handleGetLoggedUser
+} from "../src/actions/getProfile";
 import { handleGetAllPost } from "../src/actions/getAllPost";
 import { connect } from "react-redux";
 import {
@@ -16,7 +19,8 @@ import Feeds from "./components/Feeds";
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
   getProfileInfo: () => dispatch(handleGetProfile()),
-  getAllPost: () => dispatch(handleGetAllPost())
+  getAllPost: () => dispatch(handleGetAllPost()),
+  getLoggedUser: () => dispatch(handleGetLoggedUser())
 });
 class App extends Component {
   constructor(props) {
@@ -28,6 +32,7 @@ class App extends Component {
   componentDidMount = async () => {
     await this.props.getProfileInfo();
     await this.props.getAllPost();
+    await this.props.getLoggedUser();
   };
 
   render() {

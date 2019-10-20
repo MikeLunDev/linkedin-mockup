@@ -4,12 +4,14 @@ import errorReducer from "../reducers/error";
 import experienceReducer from "../reducers/experience";
 import postlistReducer from "../reducers/post";
 import selectedProfileReducer from "../reducers/selectedProfile";
+import loggedUserReducer from "../reducers/loggedUser";
 import thunk from "redux-thunk";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = {
   profiles: [],
+  loggedUser: {},
   selectedProfile: {},
   error: {
     fetchError: false,
@@ -25,7 +27,8 @@ const bigReducer = combineReducers({
   error: errorReducer,
   experience: experienceReducer,
   postlist: postlistReducer,
-  selectedProfile: selectedProfileReducer
+  selectedProfile: selectedProfileReducer,
+  loggedUser: loggedUserReducer
 });
 
 export default function configureStore() {

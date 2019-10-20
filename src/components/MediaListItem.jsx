@@ -48,7 +48,6 @@ export default class MediaListItem extends Component {
                 <Moment format="YYYY MMM">
                   {this.props.experience.startDate}
                 </Moment>
-                <GoPrimitiveDot className="pb-1 px-1" size="11px" />
               </>
             ) : (
               "Present  "

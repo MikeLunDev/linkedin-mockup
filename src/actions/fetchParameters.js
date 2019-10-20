@@ -22,6 +22,10 @@ export const DELETE_PARAMS = {
   method: "DELETE",
   headers: headers
 };
+export const PUT_PARAMS = {
+  method: "PUT",
+  headers: headers
+};
 
 export const FETCH_BASE_URL =
   "https://striveschool.herokuapp.com/api/profiles/";

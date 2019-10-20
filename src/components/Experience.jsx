@@ -33,7 +33,8 @@ class Experience extends Component {
                         <h5>Experience</h5>
                       </div>
                       <span className="d-block">
-                        {this.props.selectedProfile.username === "user4" && (
+                        {this.props.selectedProfile.username ===
+                          this.props.loggedUser.username && (
                           <FiPlus
                             size="35px"
                             className="pb-1"
