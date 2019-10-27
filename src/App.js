@@ -4,9 +4,9 @@ import NavBar from "./components/Navbar";
 import Profile from "./components/Profile";
 import {
   handleGetProfile,
-  handleGetLoggedUser
-} from "../src/actions/getProfile";
-import { handleGetAllPost } from "../src/actions/getAllPost";
+  handleGetLoggedUser,
+  handleGetAllPost
+} from "../src/actions/profileActions";
 import { connect } from "react-redux";
 import {
   BrowserRouter as Router,
@@ -15,6 +15,7 @@ import {
   Redirect
 } from "react-router-dom";
 import Feeds from "./components/Feeds";
+import RegistrationPage from "./components/RegistrationPage";
 
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
@@ -42,6 +43,9 @@ class App extends Component {
           <NavBar />
         </Route>
         <Switch>
+          <Route path="/register">
+            <RegistrationPage />
+          </Route>
           <Route exact path="/">
             <Redirect to="/feeds/" />
           </Route>

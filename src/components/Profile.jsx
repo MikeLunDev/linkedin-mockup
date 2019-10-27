@@ -12,11 +12,10 @@ import Nav from "react-bootstrap/Nav";
 import Experience from "./Experience";
 import BioInformations from "./BioInformations";
 import { GoPrimitiveDot } from "react-icons/go";
-import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { handleSelectedProfile } from "../actions/getProfile";
-import { handleSelectedExperience } from "../actions/getExperiences";
-
+import { handleSelectedProfile } from "../actions/profileActions";
+import { handleSelectedExperience } from "../actions/experienceActions";
+import { connect } from "react-redux";
 const mapStateToProps = state => state;
 const mapDispatchToProps = dispatch => ({
   selectProfile: user => dispatch(handleSelectedProfile(user)),

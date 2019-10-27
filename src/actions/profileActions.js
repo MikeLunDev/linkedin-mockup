@@ -1,4 +1,8 @@
-import { FETCH_BASE_URL, FETCH_PARAMS } from "./fetchParameters";
+import {
+  FETCH_BASE_URL,
+  FETCH_PARAMS,
+  FETCH_POST_URL
+} from "./fetchParameters";
 
 export const handleGetProfile = () => {
   return async (dispatch, getState) => {
@@ -42,6 +46,24 @@ export const handleGetLoggedUser = () => {
       ? dispatch({
           type: "LOAD_LOGGED_USER",
           payload: loggedUser
+        })
+      : dispatch({
+          type: "ERROR",
+          message: json.message,
+          statusCode: ` ${response.status} ${response.statusText}`
+        });
+  };
+};
+
+export const handleGetAllPost = () => {
+  return async (dispatch, getState) => {
+    var response = await fetch(FETCH_POST_URL, FETCH_PARAMS);
+    var json = await response.json();
+    var toSend = json.reverse();
+    return response.ok
+      ? dispatch({
+          type: "LOAD_ALL_POST",
+          payload: toSend
         })
       : dispatch({
           type: "ERROR",
