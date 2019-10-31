@@ -36,7 +36,7 @@ class RegistrationPage extends Component {
   handleRegistration = async values => {
     try {
       var resp = await fetch(
-        "https://linkedin-mockup-backend.herokuapp.com/register",
+        "https://linkedinbackend.azurewebsites.net/user/register",
         {
           method: "POST",
           body: JSON.stringify(values),
@@ -85,7 +85,7 @@ class RegistrationPage extends Component {
   handleRefresh = async token => {
     try {
       var resp = await fetch(
-        "https://linkedin-mockup-backend.herokuapp.com/refresh",
+        "https://linkedinbackend.azurewebsites.net/user/refresh",
         {
           method: "POST",
           headers: {
