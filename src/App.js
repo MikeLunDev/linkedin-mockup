@@ -69,7 +69,8 @@ class App extends Component {
             <Feeds />
           </Route>
         </Switch>
-        {!this.state.redirectToLogin && <Redirect to="/login" />}
+        {!this.state.redirectToLogin &&
+          localStorage.getItem("token") === null && <Redirect to="/login" />}
       </Router>
     );
   }

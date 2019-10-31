@@ -95,12 +95,14 @@ class RegistrationPage extends Component {
       if (resp.ok) {
         var json = await resp.json();
         localStorage.setItem("token", json.token);
+        this.setState({ redirect: true });
+      } else {
+        console.log("i'm here");
+        localStorage.removeItem("token");
       }
     } catch (err) {
-      console.log(err);
+      localStorage.removeItem("token");
       this.setState({ errMess: err, redirect: true });
-    } finally {
-      this.setState({ redirect: true });
     }
   };
 
