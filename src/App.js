@@ -35,20 +35,14 @@ class App extends Component {
 
   componentDidMount = async () => {
     const token = localStorage.getItem("token");
-    if (this.props.loggedUser === "" && token === null) {
+    console.log(token === null);
+    if (token === null) {
       this.setState({ redirectToLogin: true });
     } else {
-      if (this.props.loggedUser !== "") {
-        await this.props.refreshToken(this.props.loggedUser);
-        if (!this.props.error.fetchError) {
-          await this.props.getAllPost(this.props.loggedUser);
-        }
-      } else {
-        /* SE METTO QUESTO CRASHA E MI DICE 
-        "Unhandled Rejection (Error): Actions must be plain objects. Use custom middleware for async actions."
-        await this.props.refreshToken(token);
-        */
-      }
+      /*  await this.props.refreshToken(token);
+      localStorage.setItem("token", this.props.loggedUser); */
+
+      await this.props.getAllPost(token);
     }
   };
 

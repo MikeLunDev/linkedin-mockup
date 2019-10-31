@@ -50,7 +50,6 @@ export const handleGetLoggedUser = credentials => {
     });
     if (response.ok) {
       const json = await response.json();
-      console.log("json parsed", json);
       const { token } = json;
       return dispatch({
         type: "LOAD_LOGGED_USER",
@@ -78,21 +77,18 @@ export const handleRefreshToken = async token => {
     });
     if (resp.ok) {
       var json = await resp.json();
-      if (localStorage.getItem("token") === null)
-        return dispatch({
-          type: "LOAD_LOGGED_USER",
-          payload: json.token,
-          rememberMe: false
-        });
+      const { token } = json;
+      return dispatch({
+        type: "LOAD_LOGGED_USER",
+        payload: token,
+        rememberMe: false
+      });
     } else {
-      if (localStorage.getItem("token") !== null) {
-        localStorage.setItem("token", json.token);
-      } else
-        return dispatch({
-          type: "ERROR",
-          message: resp.statusText,
-          statusCode: resp.status
-        });
+      return dispatch({
+        type: "ERROR",
+        message: resp.statusText,
+        statusCode: resp.status
+      });
     }
   };
 };

@@ -17,6 +17,7 @@ export const handleGetAllPost = token => {
       method: "GET"
     });
     if (response.ok) {
+      console.log("everything ok");
       var json = await response.json();
       var toSend = json.reverse();
       return dispatch({
