@@ -1,12 +1,19 @@
-import { encode } from "base-64";
+/* import { encode } from "base-64";
 const username = "user4";
-const password = process.env.REACT_APP_API_PASS;
+const password = process.env.REACT_APP_API_PASS; */
 
 export const headers = new Headers({
   "Content-Type": "application/json",
-  Authorization: "Basic " + encode(username + ":" + password),
   credentials: "same-origin"
 });
+
+export const LOGIN_PARAMS = {
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json"
+  },
+  method: "POST"
+};
 
 export const FETCH_PARAMS = {
   method: "GET",
@@ -28,6 +35,8 @@ export const PUT_PARAMS = {
 };
 
 export const FETCH_BASE_URL =
-  "https://striveschool.herokuapp.com/api/profiles/";
+  "https://linkedinbackend.azurewebsites.net/profile";
 
-export const FETCH_POST_URL = "https://striveschool.herokuapp.com/api/posts/";
+export const FETCH_POST_URL = "https://linkedinbackend.azurewebsites.net/post";
+
+export const FETCH_USER_URL = "https://linkedinbackend.azurewebsites.net/user/";

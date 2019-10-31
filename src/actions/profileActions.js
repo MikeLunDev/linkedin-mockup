@@ -1,13 +1,14 @@
 import {
   FETCH_BASE_URL,
   FETCH_PARAMS,
-  FETCH_POST_URL
+  FETCH_USER_URL,
+  LOGIN_PARAMS
 } from "./fetchParameters";
 
 export const handleGetProfile = () => {
   return async (dispatch, getState) => {
     var response = await fetch(FETCH_BASE_URL, FETCH_PARAMS);
-    var json = await response.json();
+    const json = await response.json();
     return response.ok
       ? dispatch({
           type: "LOAD_PROFILES",
@@ -24,7 +25,7 @@ export const handleGetProfile = () => {
 export const handleSelectedProfile = (user = "user4") => {
   return async (dispatch, getState) => {
     var response = await fetch(FETCH_BASE_URL + user, FETCH_PARAMS);
-    var json = await response.json();
+    const json = await response.json();
     return response.ok
       ? dispatch({
           type: "LOAD_SELECTED_PROFILE",
@@ -37,38 +38,61 @@ export const handleSelectedProfile = (user = "user4") => {
         });
   };
 };
-export const handleGetLoggedUser = () => {
+export const handleGetLoggedUser = credentials => {
   return async (dispatch, getState) => {
-    const response = await fetch(FETCH_BASE_URL, FETCH_PARAMS);
-    const json = await response.json();
-    const loggedUser = json.find(current => current.username === "user4");
-    return response.ok && loggedUser !== undefined
-      ? dispatch({
-          type: "LOAD_LOGGED_USER",
-          payload: loggedUser
-        })
-      : dispatch({
-          type: "ERROR",
-          message: json.message,
-          statusCode: ` ${response.status} ${response.statusText}`
-        });
+    const { email, password, rememberMe } = credentials;
+    const response = await fetch(FETCH_USER_URL + "login", {
+      ...LOGIN_PARAMS,
+      body: JSON.stringify({
+        email,
+        password
+      })
+    });
+    if (response.ok) {
+      const json = await response.json();
+      console.log("json parsed", json);
+      const { token } = json;
+      return dispatch({
+        type: "LOAD_LOGGED_USER",
+        payload: token,
+        rememberMe: rememberMe
+      });
+    } else {
+      return dispatch({
+        type: "ERROR",
+        message: response.statusText,
+        statusCode: response.status
+      });
+    }
   };
 };
 
-export const handleGetAllPost = () => {
+export const handleRefreshToken = async token => {
   return async (dispatch, getState) => {
-    var response = await fetch(FETCH_POST_URL, FETCH_PARAMS);
-    var json = await response.json();
-    var toSend = json.reverse();
-    return response.ok
-      ? dispatch({
-          type: "LOAD_ALL_POST",
-          payload: toSend
-        })
-      : dispatch({
-          type: "ERROR",
-          message: json.message,
-          statusCode: ` ${response.status} ${response.statusText}`
+    var resp = await fetch(FETCH_USER_URL + "refresh", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: "Bearer " + token
+      }
+    });
+    if (resp.ok) {
+      var json = await resp.json();
+      if (localStorage.getItem("token") === null)
+        return dispatch({
+          type: "LOAD_LOGGED_USER",
+          payload: json.token,
+          rememberMe: false
         });
+    } else {
+      if (localStorage.getItem("token") !== null) {
+        localStorage.setItem("token", json.token);
+      } else
+        return dispatch({
+          type: "ERROR",
+          message: resp.statusText,
+          statusCode: resp.status
+        });
+    }
   };
 };

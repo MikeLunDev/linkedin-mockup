@@ -7,6 +7,13 @@ export default function(state = null, action) {
         message: action.message,
         statusCode: action.statusCode
       };
+    case "RESET_ERROR":
+      return {
+        ...state,
+        fetchError: false,
+        message: "",
+        statusCode: null
+      };
     default:
       return state;
   }

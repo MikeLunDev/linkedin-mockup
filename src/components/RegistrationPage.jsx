@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { LocalForm, Control, Errors } from "react-redux-form";
 import Form from "react-bootstrap/Form";
-import Tooltip from "react-bootstrap/Tooltip";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
-import { MdInfoOutline } from "react-icons/md";
 import { Redirect, Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 const mapStateToProps = state => state;

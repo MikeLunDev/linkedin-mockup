@@ -7,6 +7,15 @@ import FormControl from "react-bootstrap/FormControl";
 import { FaLinkedin } from "react-icons/fa";
 import Container from "react-bootstrap/Container";
 import { Link } from "react-router-dom";
+import {
+  IoMdHome,
+  IoMdPeople,
+  IoIosBriefcase,
+  IoMdText,
+  IoMdNotifications,
+  IoMdApps,
+  IoIosTv
+} from "react-icons/io";
 
 export default class NavBar extends Component {
   render() {
@@ -33,10 +42,32 @@ export default class NavBar extends Component {
             </Form>
           </Container>
           <Nav className="ml-auto">
-            <Link to="/">Home</Link>
-
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+            <Nav.Link to="/" active>
+              <IoMdHome className="pl-1" size="35px" />
+              <br />
+              <span style={{ fontSize: "13px" }}>Home</span>
+            </Nav.Link>
+            <Nav.Link to="/">
+              <IoMdPeople className="pl-1" size="35px" />
+              <br />
+              <span style={{ fontSize: "13px" }}>Network</span>
+            </Nav.Link>
+            <Nav.Link to="/">
+              <IoIosBriefcase size="35px" />
+              <br />
+              <span style={{ fontSize: "13px" }}>Jobs</span>
+            </Nav.Link>
+            <Nav.Link to="/">
+              <IoMdText className="pl-1" size="35px" />
+              <br />
+              <span style={{ fontSize: "13px" }}>Messaging</span>
+            </Nav.Link>
+            <Nav.Link to="/">
+              <IoMdNotifications className="pl-1" size="35px" />
+              <br />
+              <span style={{ fontSize: "13px" }}>Notifications</span>
+            </Nav.Link>
+            <NavDropdown title="Profile" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
                 Another action
@@ -47,6 +78,16 @@ export default class NavBar extends Component {
                 Separated link
               </NavDropdown.Item>
             </NavDropdown>
+            <Nav.Link to="/">
+              <IoMdApps className="pl-1" size="35px" />
+              <br />
+              <span style={{ fontSize: "13px" }}>Work</span>
+            </Nav.Link>
+            <Nav.Link to="/">
+              <IoIosTv className="pl-1" size="35px" />
+              <br />
+              <span style={{ fontSize: "13px" }}>Learning</span>
+            </Nav.Link>
           </Nav>
         </Navbar>
       </>

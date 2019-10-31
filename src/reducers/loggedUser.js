@@ -1,11 +1,7 @@
-export default function(state = {}, action) {
+export default function(state = "", action) {
   switch (action.type) {
     case "LOAD_LOGGED_USER":
-      return {
-        ...state,
-        ...action.payload
-      };
-
+      return action.payload;
     default:
       return state;
   }

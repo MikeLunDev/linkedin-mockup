@@ -34,7 +34,7 @@ class PostSection extends Component {
     };
   }
 
-  componentDidUpdate;
+  componentDidMount = () => {};
 
   handleChange = ({ currentTarget: { value } }) => {
     this.setState({ message: value });

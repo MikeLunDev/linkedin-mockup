@@ -2,8 +2,35 @@ import {
   FETCH_POST_URL,
   POST_PARAMS,
   DELETE_PARAMS,
-  PUT_PARAMS
+  PUT_PARAMS,
+  FETCH_PARAMS
 } from "./fetchParameters";
+
+export const handleGetAllPost = token => {
+  return async (dispatch, getState) => {
+    var response = await fetch(FETCH_POST_URL, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: "Bearer " + token
+      },
+      method: "GET"
+    });
+    if (response.ok) {
+      var json = await response.json();
+      var toSend = json.reverse();
+      return dispatch({
+        type: "LOAD_ALL_POST",
+        payload: toSend
+      });
+    } else
+      return dispatch({
+        type: "ERROR",
+        message: response.statusText,
+        statusCode: response.status
+      });
+  };
+};
 
 export const handlePostComment = (text = "") => {
   return async (dispatch, getState) => {
